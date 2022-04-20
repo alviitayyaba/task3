@@ -1,0 +1,6 @@
+library(vcfR)
+my.vcf <- read.vcfR("tumor_vs_normal.strelka.somatic.snvs.vcf.gz")
+my.vcf.df <- cbind(as.data.frame(getFIX(my.vcf)), INFO2df(my.vcf))
+filtered <- subset(my.vcf.df, FILTER != "LowEVS")
+filtered <- subset(filtered, FILTER != "LowEVS;LowDepth")
+write.table(filtered, file = "tumor_vs_normal.strelka.somatic.snvs-filtered.vcf", sep= '/t', header= TRUE)
